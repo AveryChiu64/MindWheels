@@ -1,0 +1,53 @@
+<!-- Dapp Frontend (HTML, JavaScript, Web3.js) -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCI Wheelchair Control Dapp</title>
+</head>
+
+<body>
+    <h1>BCI Wheelchair Control</h1>
+    <button id="startButton">Start Moving</button>
+    <button id="stopButton">Stop Moving</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.3.4/dist/web3.min.js"></script>
+    <script>
+        // Connect to Ethereum node
+        const web3 = new Web3('ethereum_node_url');
+
+        // Contract ABI (Application Binary Interface)
+        const contractABI = [...]; // ABI of the WheelchairControl smart contract
+
+        // Contract Address
+        const contractAddress = '0x...'; // Address of the deployed smart contract
+
+        // Instantiate the contract
+        const wheelchairControlContract = new web3.eth.Contract(contractABI, contractAddress);
+
+        // Button event handlers
+        document.getElementById('startButton').addEventListener('click', () => {
+            wheelchairControlContract.methods.startMoving().send({ from: 'user_wallet_address' })
+                .then(receipt => {
+                    console.log('Wheelchair started moving:', receipt);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+
+        document.getElementById('stopButton').addEventListener('click', () => {
+            wheelchairControlContract.methods.stopMoving().send({ from: 'user_wallet_address' })
+                .then(receipt => {
+                    console.log('Wheelchair stopped moving:', receipt);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+</body>
+
+</html>
